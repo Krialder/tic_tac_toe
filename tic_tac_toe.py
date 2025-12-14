@@ -98,13 +98,31 @@ class TicTacToe:
 
             self.show_board()
 
-            # Get user input
-            row, col = list(
-                map(int, input("Enter row and column numbers to fix spot (1-3): ").split()))
-            print()
+            # Get user input with validation
+            try:
+                row, col = list(
+                    map(int, input("Enter row and column numbers to fix spot (1-3): ").split()))
+                print()
 
-            # Fix the spot
-            self.fix_spot(row - 1, col - 1, player)
+                # Validate input range
+                if row < 1 or row > 3 or col < 1 or col > 3:
+                    print("Invalid input! Please enter numbers between 1 and 3.")
+                    continue
+
+                # Check if spot is already taken
+                if self.board[row - 1][col - 1] != '-':
+                    print("Spot already taken! Choose another spot.")
+                    continue
+
+                # Fix the spot
+                self.fix_spot(row - 1, col - 1, player)
+
+            except ValueError:
+                print("Invalid input! Please enter two numbers separated by space (e.g., 1 2)")
+                continue
+            except IndexError:
+                print("Invalid input! Please enter numbers between 1 and 3.")
+                continue
 
             # Check if current player won
             if self.is_player_win(player):
